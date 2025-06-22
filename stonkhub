@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MYSTERY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata&family=Rock+Salt&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inconsolata', monospace;
+      background-color: #222; /* Dark grey background */
+      color: #fff;
+      scroll-behavior: smooth;
+      font-size: 18px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    h2, h3 { font-family: 'Rock Salt', cursive; }
+    h2 { font-size: 2.5rem; }
+    h3 { font-size: 2rem; }
+    p, li { font-size: 1.8rem; }
+    main {
+      flex: 1 0 auto;
+    }
+    section {
+      padding: 60px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      background-color: transparent; /* Remove any section backgrounds */
+    }
+    #hero {
+      min-height: 100vh;
+      background: url('BG1.png') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      z-index: 0;
+    }
+    #hero::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0; height: 200px;
+      background: linear-gradient(to bottom, rgba(34,34,34,0) 0%, #222 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    #hero img.logo {
+      max-width: 80%;
+      height: auto;
+      margin-bottom: 20px;
+      margin-left: 40px;
+      z-index: 10;
+      position: relative;
+    }
+
+    #backstory {
+      position: relative;
+      z-index: 0;
+    }
+
+    /* Moved BG4.png background to #characters with fade overlays */
+    #characters {
+      background: url('BG4.png') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      z-index: 0;
+    }
+    #characters::before,
+    #characters::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 150px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    #characters::before {
+      top: 0;
+      background: linear-gradient(to top, rgba(34,34,34,0) 0%, #222 100%);
+    }
+    #characters::after {
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(34,34,34,0) 0%, #222 100%);
+    }
+
+    /* Added BG3.png background and fade overlays for tokenomics section */
+    #tokenomics {
+      background: url('BG3.png') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      z-index: 0;
+    }
+    #tokenomics::before,
+    #tokenomics::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 150px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    #tokenomics::before {
+      top: 0;
+      background: linear-gradient(to top, rgba(34,34,34,0) 0%, #222 100%);
+    }
+    #tokenomics::after {
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(34,34,34,0) 0%, #222 100%);
+    }
+
+    /* NEW: Added BG2.png background and fade overlays for roadmap section */
+    #roadmap {
+      background: url('BG2.png') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      z-index: 0;
+    }
+    #roadmap::before,
+    #roadmap::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 150px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    #roadmap::before {
+      top: 0;
+      background: linear-gradient(to top, rgba(34,34,34,0) 0%, #222 100%);
+    }
+    #roadmap::after {
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(34,34,34,0) 0%, #222 100%);
+    }
+
+    /* NEW: Added BG5.png background and fade overlays for how-to-buy section */
+    #how-to-buy {
+      background: url('BG5.png') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      z-index: 0;
+    }
+    #how-to-buy::before,
+    #how-to-buy::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 150px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    #how-to-buy::before {
+      top: 0;
+      background: linear-gradient(to top, rgba(34,34,34,0) 0%, #222 100%);
+    }
+    #how-to-buy::after {
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(34,34,34,0) 0%, #222 100%);
+    }
+
+    .cta-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .cta-buttons button {
+      margin: 10px;
+      padding: 10px 20px;
+      background: #ff00cc;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      z-index: 10;
+    }
+    .cta-buttons button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px #ff00cccc;
+    }
+    .copy-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      z-index: 10;
+    }
+    #copy-bar {
+      flex-grow: 1;
+      padding: 8px 12px;
+      border: 2px solid #ff00cc;
+      border-radius: 6px;
+      background: #2a2a2a;
+      color: #fff;
+      user-select: all;
+      transition: box-shadow 0.3s ease;
+    }
+    #copy-bar:hover, #copy-bar:focus {
+      outline: none;
+      box-shadow: 0 0 15px #ff00cccc;
+    }
+    #copy-btn {
+      padding: 8px 16px;
+      background: #ff00cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    #copy-btn:hover, #copy-btn:focus {
+      box-shadow: 0 0 15px #ff00cccc;
+      transform: scale(1.05);
+      outline: none;
+    }
+    #backstory img, #roadmap img, #characters > img {
+      max-width: 60%;
+      height: auto;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 10;
+    }
+    .characters {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1200px;
+      position: relative;
+      z-index: 10;
+    }
+    .character-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 220px;
+      cursor: pointer;
+      position: relative;
+      z-index: 10;
+    }
+    .character-card img {
+      width: 220px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #ff00cc99;
+      margin-bottom: 12px;
+      transition: transform 0.3s ease;
+    }
+    .character-card img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #ff00cccc;
+    }
+    .character-card h3 {
+      margin-top: 0;
+      font-family: 'Rock Salt', cursive;
+      font-size: 1.8rem;
+    }
+    #roadmap ul { list-style: none; padding-left: 0; margin-left: 0; position: relative; z-index: 10; }
+    #roadmap ul li {
+      margin-bottom: 30px;
+    }
+    #how-to-buy ol li {
+      margin-bottom: 30px;
+      list-style-position: inside;
+      position: relative;
+      z-index: 10;
+    }
+    #social-icons {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      display: flex;
+      gap: 20px;
+      z-index: 1000;
+    }
+    .social-link svg {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      transition: stroke 0.3s ease, fill 0.3s ease;
+      stroke: #fff;
+      fill: #fff;
+    }
+    .social-link:hover svg path, .social-link:hover svg circle, .social-link:hover svg polygon {
+      stroke: #ff00cc;
+      fill: #ff00cc;
+    }
+    #tokenomics p { margin-bottom: 30px; }
+
+    /* Styling for uploaded images */
+    .extra-image {
+      max-width: 70%;
+      margin: 30px auto 0;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      filter: drop-shadow(0 0 10px #ff00ccaa);
+      transition: transform 0.3s ease, filter 0.3s ease;
+      cursor: pointer;
+      display: block;
+      background: transparent;
+      position: relative;
+      z-index: 10;
+    }
+    .extra-image:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 18px #ff00ccee);
+    }
+
+    /* Footer disclaimer */
+    footer {
+      flex-shrink: 0;
+      padding: 20px;
+      background: #111;
+      color: #777;
+      font-size: 1.2rem;
+      text-align: center;
+      border-top: 1px solid #222;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="social-icons">
+    <a href="#" aria-label="X" target="_blank" rel="noopener noreferrer" class="social-link">
+      <svg role="img" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 6L18 18"/>
+        <path d="M6 18L18 6"/>
+      </svg>
+    </a>
+    <a href="#" aria-label="Telegram" target="_blank" rel="noopener noreferrer" class="social-link">
+      <svg role="img" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 2L11 13" />
+        <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+      </svg>
+    </a>
+  </div>
+
+  <main>
+    <section id="hero" data-aos="zoom-in">
+      <img src="MYSTERYMATTFURIE.png" alt="MYSTERY Logo" class="logo" />
+      <p>Welcome to <strong>MYSTERY</strong>—where memes meet magic.</p>
+      <div class="cta-buttons"><button>Join the Riders</button></div>
+      <div class="copy-container">
+        <input type="text" id="copy-bar" value="CA TBA" readonly title="Contract address to copy" />
+        <button id="copy-btn">Copy</button>
+      </div>
+    </section>
+
+    <section id="backstory" data-aos="fade-up">
+      <img src="MysteryFullBody.png" alt="Mystery Full Body" class="extra-image" />
+      <img src="ORIGINS.png" alt="Origins Header" />
+      <p>The Night Riders takes you on a wild, psychedelic journey through a shadowy world where strange creatures roam and surreal adventures unfold. Matt Furie’s signature blend of quirky characters and trippy storytelling invites you to join a mysterious gang of riders as they navigate dark alleys, strange dreams, and cosmic chaos. It’s a vibrant mix of humor, mystery, and wild imagination—a ride full of unexpected twists and unforgettable moments that pulls you deep into a bizarre and captivating universe.</p>
+      <p>This is <strong>MYSTERY</strong>.</p>
+    </section>
+
+    <section id="characters" data-aos="fade-up">
+      <img src="MysteryGang.png" alt="Mystery Gang" class="extra-image" data-aos="fade-up" />
+      <img src="TNR.png" alt="Meet the Characters Header" data-aos="fade-up" />
+      <div class="characters" data-aos="fade-up" data-aos-delay="100">
+        <div class="character-card" onclick="window.open('https://boysclub.fandom.com/wiki/Mystery','_blank')">
+          <img src="Card1.png" alt="Mystery the Frog" /><h3>Mystery the Frog</h3>
+        </div>
+        <div class="character-card" onclick="window.open('https://boysclub.fandom.com/wiki/Hoodrat','_blank')">
+          <img src="Card2.png" alt="Hoodrat the Bat" /><h3>Hoodrat the Bat</h3>
+        </div>
+        <div class="character-card" onclick="window.open('https://boysclub.fandom.com/wiki/Toki','_blank')">
+          <img src="Card3.png" alt="Toki the Dragon" /><h3>Toki the Dragon</h3>
+        </div>
+        <div class="character-card" onclick="window.open('https://boysclub.fandom.com/wiki/Wat','_blank')">
+          <img src="Card4.png" alt="Wat the Rat" /><h3>Wat the Rat</h3>
+        </div>
+      </div>
+    </section>
+
+    <section id="tokenomics" data-aos="fade-up">
+      <img src="TOKENOMICS.png" alt="Tokenomics Header" style="max-width:70%;height:auto;margin-bottom:20px;"/>
+      <p><strong>Total Supply:</strong> 1,000,000,000</p>
+      <p><strong>Buy/Sell Tax:</strong> 0% (Just vibes.)</p>
+      <p><strong>Liquidity:</strong> Burned 🔥</p>
+      <p><strong>Ownership:</strong> Renounced 🕵️‍♂️</p>
+    </section>
+
+    <section id="roadmap" data-aos="fade-up">
+      <img src="ROADMAP.png" alt="Roadmap Header" style="max-width: 70%; height: auto; margin-bottom: 30px;" />
+      <ul>
+        <li><strong>Phase 1:</strong> Website launch, Token launch, Chill & Shill</li>
+        <li><strong>Phase 2:</strong> 1st 1,000 Degens and Exclusive Drops</li>
+        <li><strong>Phase 3:</strong> Charitable Donations to Matt Furie selected organizaitons</li>
+        <li><strong>Phase 4:</strong> Rider Roulette (Pending)</li>
+        <li><strong>Phase 5:</strong> Moon Landing Party</li>
+      </ul>
+    </section>
+
+    <section id="how-to-buy" data-aos="fade-up">
+      <img src="HOWTOBUY.png" alt="How to Buy Header" style="max-width: 70%; height: auto; margin-bottom: 30px;" />
+      <ol>
+        <li>Connect your wallet using Phantom or other Solana compatible wallets.</li>
+        <li>Purchase SOL tokens if you don’t have any.</li>
+        <li>Swap SOL for MYSTERY tokens on a supported decentralized exchange.</li>
+        <li>Hodl and enjoy the ride!</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 MYSTERY Project — All rights reserved.
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 900,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false,
+    });
+
+    const copyBtn = document.getElementById('copy-btn');
+    const copyBar = document.getElementById('copy-bar');
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(copyBar.value).then(() => {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => (copyBtn.textContent = 'Copy'), 2000);
+      });
+    });
+  </script>
+</body>
+</html>
